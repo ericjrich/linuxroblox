@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-#20221211 1752 est EJR
+#20221213 0855 est EJR
 #shopt -s dotglob
 clear
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
@@ -9,9 +9,13 @@ mkdir ~/Desktop/tmpdirroblox; cd ~/Desktop/tmpdirroblox;
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo '       ====== Going To Ensure Your Have ======='
 echo 'git wget zenity'; echo ''; read idgaf
-
-togetzzz='git wget zenity'; sudo apt update
-for i in ${togetzzz}; do sudo apt-get install -y $i; done
+clear
+rm tmp.txt
+sudo apt update
+togetzzz='git wget zenity'
+for i in ${togetzzz}; do dpkg -s $i && echo "You Have $i" || echo "$i">>tmp.txt; done
+getzzz=$(cat tmp.txt)
+for i in ${getzzz}; do sudo apt-get install -y $i; done
 
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo '       ====== Now Let Us Get WINE ! =========='; read idgaf
