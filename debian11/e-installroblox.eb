@@ -1,36 +1,44 @@
 #!/usr/bin/env bash
-#20221213 0855 est EJR
-#shopt -s dotglob
-clear
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-echo '       ====== Welcome To The Roblox Installer ======'
-echo 'Version: Debian 11 Stable'; echo ''; read idgaf
-mkdir ~/Desktop/tmpdirroblox; cd ~/Desktop/tmpdirroblox;
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-echo '       ====== Going To Ensure Your Have ======='
-echo 'git wget zenity'; echo ''; read idgaf
-clear
-rm tmp.txt
-sudo apt update
-togetzzz='git wget zenity'
-for i in ${togetzzz}; do dpkg -s $i && echo "You Have $i" || echo "$i">>tmp.txt; done
-getzzz=$(cat tmp.txt)
-for i in ${getzzz}; do sudo apt-get install -y $i; done
+#20230101 1720 est EJR
+shopt -s dotglob
+#= JumpTo Function =========================================================
+function jumpto { label=$1; cmd=$(sed -n "/$label:/{:a;n;p;ba};" $0 | grep -v ':$'); eval "$cmd"; exit; }
+start=${1:-"start"} ; jumpto $start
+#===========================================================================
+start:
+#===========================================================================
+mainmenu:
+choice=$(zenity --width=800 --height=500 --list --title "Welcome To Roblox Installer For Linux" --text "Choose OS?" --column Options "01-Debian" "02-Ubuntu_22x--OR--Mint_21x" "QUIT")
+if [ "$choice" = "01-Debian" ]; then jumpto 01-Debian
+elif [ "$choice" = "02-Ubuntu_22x--OR--Mint_21x" ]; then jumpto 02-Ubuntu_22x--OR--Mint_21x
+elif [ "$choice" = "QUIT" ]; then exit 0
+else exit 0; fi
+#===========================================================================
+01-Debian:
+urlwine='https://dl.winehq.org/wine-builds/debian/dists/bullseye/winehq-bullseye.sources'
+99-Finish
+#===========================================================================
+02-Ubuntu_22x--OR--Mint_21x:
+urlwine='https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources'
+99-Finish
+#===========================================================================
+99-Finish
+urlrlw='https://github.com/ericjrich/linuxroblox/raw/main/FROM-github-roblox-linux-wrapper/rlw.zip'
+tdir=/tmp/rbx
 
-echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
-echo '       ====== Now Let Us Get WINE ! =========='; read idgaf
-sudo dpkg --add-architecture i386
-sudo mkdir -pm755 /etc/apt/keyrings
+sudo apt update; sudo apt install -y git wget zenity
+rm -r $tdir/; mkdir $tdir/; cd $tdir/
+
+sudo dpkg --add-architecture i386; sudo mkdir -pm755 /etc/apt/keyrings
 sudo wget -O /etc/apt/keyrings/winehq-archive.key https://dl.winehq.org/wine-builds/winehq.key
-sudo wget -NP /etc/apt/sources.list.d/ https://dl.winehq.org/wine-builds/debian/dists/bullseye/winehq-bullseye.sources
-sudo apt update
-sudo apt install --install-recommends -y winehq-stable
+sudo wget -NP /etc/apt/sources.list.d/ $urlwine
+sudo apt update; sudo apt install --install-recommends -y winehq-stable
+
+wget -O rlw.zip $urlrlw; unzip rlw.zip; cd rlw/
+clear
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'
 echo '==== You Can Thank This Group For The Work They Do Next ===='
 echo 'https://github.com/roblox-linux-wrapper'; echo ''; read idgaf
-wget -O rlw.zip https://github.com/ericjrich/linuxroblox/raw/main/FROM-github-roblox-linux-wrapper/rlw.zip
-unzip rlw.zip
-cd rlw/
 echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''; echo ''
 echo '~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'; echo ''
 echo 'We are About To Run RobloxLinuxWrapper:'; echo ''
@@ -46,6 +54,4 @@ echo '    EXIT'; echo ''
 echo '  5- Browser wants to allow xdg-open'
 echo '    check the box and allow it'; echo ''
 read idgaf; echo ''
-./rlw
-cd ~/
-rm -r ~/Desktop/tmpdirroblox/
+./rlw; cd ~/; rm -r $tdir/
