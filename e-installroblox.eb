@@ -8,9 +8,9 @@ start=${1:-"start"} ; jumpto $start
 start:
 #===========================================================================
 mainmenu:
-choice=$(zenity --width=800 --height=500 --list --title "Welcome To Roblox Installer For Linux" --text "Choose OS?" --column Options "01-Debian" "02-Ubuntu_22x--OR--Mint_21x" "QUIT")
+choice=$(zenity --width=800 --height=500 --list --title "Welcome To Roblox Installer For Linux" --text "Choose OS?" --column Options "01-Debian" "02-NOTREADY-Ubuntu_22x--OR--Mint_21x" "QUIT")
 if [ "$choice" = "01-Debian" ]; then jumpto 01-Debian
-elif [ "$choice" = "02-Ubuntu_22x--OR--Mint_21x" ]; then jumpto 02-Ubuntu_22x--OR--Mint_21x
+elif [ "$choice" = "02-NOTREADY-Ubuntu_22x--OR--Mint_21x" ]; then jumpto 02-NOTREADY-Ubuntu_22x--OR--Mint_21x
 elif [ "$choice" = "QUIT" ]; then exit 0
 else exit 0; fi
 #===========================================================================
@@ -18,7 +18,7 @@ else exit 0; fi
 urlwine='https://dl.winehq.org/wine-builds/debian/dists/bullseye/winehq-bullseye.sources'
 99-Finish
 #===========================================================================
-02-Ubuntu_22x--OR--Mint_21x:
+02-NOTREADY-Ubuntu_22x--OR--Mint_21x:
 urlwine='https://dl.winehq.org/wine-builds/ubuntu/dists/jammy/winehq-jammy.sources'
 99-Finish
 #===========================================================================
